@@ -15,9 +15,10 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.requests.restaction.MessageAction;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.requests.restaction.MessageCreateAction;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.MinecraftServer;
 
@@ -52,7 +53,7 @@ public class RegisterCommand {
 
     protected static void execute(DiscordCommandSource source, String username) {
         analyzeTimings("RegisterCommand#execute", () -> {
-            MessageChannel channel = source.getChannel();
+            MessageChannelUnion channel = source.getChannel();
             Member member = source.getMember();
             if (member == null) return;
 
@@ -133,13 +134,13 @@ public class RegisterCommand {
                     BotHelper.sendFeedbackMessage(channel, new TranslatableText("command.register.username_already_registered.title").getMinecraftText(),
                             new TranslatableText("command.register.username_already_registered.title").getMinecraftText(), BotHelper.MessageType.ERROR);
                 } else {
-                    Message message = BotHelper.generateFeedbackMessage(new TranslatableText("command.register.last_steps.title").getMinecraftText(),
+                    MessageCreateData message = BotHelper.generateFeedbackMessage(new TranslatableText("command.register.last_steps.title").getMinecraftText(),
                             new TranslatableText("command.register.last_steps.message").getMinecraftText(), BotHelper.MessageType.INFO);
-                    MessageAction feedbackMessage = channel.sendMessage(message);
+                    MessageCreateAction feedbackMessage = channel.sendMessage(message);
                     feedbackMessage.queue(message_ -> {
                         whitelist.add(new ExtendedWhitelistEntry(extendedProfile));
                         server.getScoreboard().addPlayerToTeam(profile.getName(), team);
-                        message_.editMessage(BotHelper.generateFeedbackMessage(new TranslatableText("command.register.success.title").getMinecraftText(),
+                        message_.editMessage(BotHelper.generateEditFeedbackMessage(new TranslatableText("command.register.success.title").getMinecraftText(),
                                 new TranslatableText("command.register.success.message").getMinecraftText(), BotHelper.MessageType.SUCCESS)).queue();
                     });
                 }

@@ -2,6 +2,7 @@ package com.awakenedredstone.autowhitelist.discord;
 
 import com.awakenedredstone.autowhitelist.AutoWhitelist;
 import com.awakenedredstone.autowhitelist.discord.api.AutoWhitelistAPI;
+import com.awakenedredstone.autowhitelist.discord.api.GatewayIntents;
 import com.awakenedredstone.autowhitelist.discord.api.text.TranslatableText;
 import com.awakenedredstone.autowhitelist.discord.commands.RegisterCommand;
 import com.awakenedredstone.autowhitelist.discord.commands.developer.BotStatusCommand;
@@ -16,6 +17,7 @@ import com.awakenedredstone.autowhitelist.discord.events.JdaEvents;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.MemberCachePolicy;
@@ -110,12 +112,12 @@ public class Bot extends Thread {
             builder.addEventListeners(new JdaEvents());
             builder.addEventListeners(new CoreEvents());
             builder.addEventListeners(new GatewayEvents());
-            builder.enableIntents(GatewayIntent.GUILD_MEMBERS);
+            builder.enableIntents(GatewayIntents.BASIC);
             builder.setMemberCachePolicy(MemberCachePolicy.ALL);
             jda = builder.build();
 
             try {
-                jda.getPresence().setActivity(Activity.of(Activity.ActivityType.valueOf(new TranslatableText("bot.activity.type").getString().toUpperCase().replace("PLAYING", "DEFAULT")), new TranslatableText("bot.activity.message").getString()));
+                jda.getPresence().setActivity(Activity.of(Activity.ActivityType.valueOf(new TranslatableText("bot.activity.type").getString().toUpperCase().replace("DEFAULT", "PLAYING")), new TranslatableText("bot.activity.message").getString()));
             } catch (IllegalArgumentException |
                      NullPointerException e) { //TODO: remove the replace once JDA is updated to 5.x.x
                 AutoWhitelist.LOGGER.error("Failed to set bot activity, the activity type {} is not valid.", new TranslatableText("bot.activity.type").getString().toUpperCase(), e);
@@ -130,7 +132,7 @@ public class Bot extends Thread {
             RegisterCommand.register(AutoWhitelistAPI.dispatcher());
 
             instance = this;
-        } catch (LoginException e) {
+        } catch (InvalidTokenException e) {
             AutoWhitelist.LOGGER.error("Failed to start bot, please verify the token.");
         } catch (Exception e) {
             AutoWhitelist.LOGGER.error("Failed to start bot!", e);

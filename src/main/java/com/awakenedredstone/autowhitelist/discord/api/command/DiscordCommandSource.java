@@ -1,15 +1,15 @@
 package com.awakenedredstone.autowhitelist.discord.api.command;
 
-import com.awakenedredstone.autowhitelist.discord.api.BotHelper;
 import com.awakenedredstone.autowhitelist.discord.api.AutoWhitelistAPI;
+import com.awakenedredstone.autowhitelist.discord.api.BotHelper;
 import com.awakenedredstone.autowhitelist.discord.api.text.LiteralText;
 import com.awakenedredstone.autowhitelist.discord.api.text.Text;
 import com.mojang.brigadier.ResultConsumer;
 import com.mojang.brigadier.context.CommandContext;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.Event;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,21 +19,21 @@ public final class DiscordCommandSource {
     private final User user;
     @Nullable private final Member member;
     private final Message message;
-    private final MessageChannel channel;
+    private final MessageChannelUnion channel;
     private final CommandType type;
     private final Event event;
 
     private final ResultConsumer<DiscordCommandSource> resultConsumer;
 
-    public DiscordCommandSource(User user, Message message, MessageChannel channel, CommandType type, Event event) {
+    public DiscordCommandSource(User user, Message message, MessageChannelUnion channel, CommandType type, Event event) {
         this(user, null, message, channel, type, event);
     }
 
-    public DiscordCommandSource(Member member, Message message, MessageChannel channel, CommandType type, Event event) {
+    public DiscordCommandSource(Member member, Message message, MessageChannelUnion channel, CommandType type, Event event) {
         this(member.getUser(), member, message, channel, type, event);
     }
 
-    public DiscordCommandSource(User user, @Nullable Member member, Message message, MessageChannel channel, CommandType type, Event event) {
+    public DiscordCommandSource(User user, @Nullable Member member, Message message, MessageChannelUnion channel, CommandType type, Event event) {
         this.user = user;
         this.member = member;
         this.message = message;
@@ -71,7 +71,7 @@ public final class DiscordCommandSource {
         return message;
     }
 
-    public <T extends MessageChannel> T getChannel() {
+    public <T extends MessageChannelUnion> T getChannel() {
         return (T)channel;
     }
 
