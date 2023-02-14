@@ -46,7 +46,7 @@ public class ServerStatusCommand {
             PlayerManager playerManager = server.getPlayerManager();
 
             long l = Util.getMeasuringTimeMs() - server.getTimeReference();
-            double MSPT = MathHelper.average(server.lastTickLengths) * 1.0E-6D;
+            double MSPT = average(server.lastTickLengths) * 1.0E-6D;
             double TPS = 1000.0D / Math.max(50, MSPT);
             double MAX_POSSIBLE_TPS = 1000.0D / MSPT;
 
@@ -80,5 +80,13 @@ public class ServerStatusCommand {
         if (server.isStopped()) return "Stopped.";
         if (server.isRunning()) return "Running.";
         return "Unknown.";
+    }
+
+    public static double average(long[] array) {
+        long l = 0L;
+        for (long m : array) {
+            l += m;
+        }
+        return (double)l / (double)array.length;
     }
 }

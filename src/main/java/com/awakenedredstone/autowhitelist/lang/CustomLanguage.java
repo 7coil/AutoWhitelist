@@ -17,6 +17,11 @@ public class CustomLanguage extends Language {
         return translations.getOrDefault(key, key);
     }
 
+    @Override
+    public String get(String key, String fallback) {
+        return translations.getOrDefault(key, fallback);
+    }
+
     public boolean hasTranslation(String key) {
         return translations.containsKey(key);
     }
