@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "autowhitelist",
+  "id": "autowhitelist-lite",
   "version": "${version}",
-  "name": "AutoWhitelist",
-  "description": "A way to automate the whitelist of a minecraft server based on discord roles",
+  "name": "AutoWhitelist Lite",
+  "description": "A mod to automate the whitelist of a minecraft server based on discord roles",
   "authors": [
     "Awakened Redstone"
   ],
@@ -24,6 +24,6 @@
   "depends": {
     "fabricloader": ">=0.13.2",
     "fabric-language-kotlin": "*",
-    "minecraft": ">=1.19.4-alpha.23.5.a"
+    "minecraft": ">=1.19.4-alpha.23.7.a"
   }
 }
