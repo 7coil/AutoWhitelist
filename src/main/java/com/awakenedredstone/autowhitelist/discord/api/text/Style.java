@@ -1,10 +1,10 @@
 package com.awakenedredstone.autowhitelist.discord.api.text;
 
 import com.awakenedredstone.autowhitelist.discord.api.util.Formatting;
-import com.awakenedredstone.autowhitelist.discord.api.util.Identifier;
 import com.awakenedredstone.autowhitelist.discord.api.util.InvalidIdentifierException;
 import com.awakenedredstone.autowhitelist.discord.api.util.JsonHelper;
 import com.google.gson.*;
+import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Type;
